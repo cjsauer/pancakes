@@ -19,10 +19,8 @@
   [router]
   (fn [req]
     (with-channel req channel
-      (println channel)
-      (if (and channel (websocket? channel))
-        (on-receive channel (fn [data]
-                              (router (edn/read-string data))))))))
+      (on-receive channel (fn [data]
+                            (router (edn/read-string data)))))))
 
 (defn make-ring-handler
   [pancakes-handler]
