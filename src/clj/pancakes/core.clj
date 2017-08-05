@@ -5,7 +5,8 @@
 (timbre/merge-config!
  {:appenders {:spit (appenders/spit-appender {:fname "output.log"})}})
 
-(defn run
-  "Entry point to application."
-  [& args]
-  (info "Warming the syrup..."))
+(defn make-router
+  [function-map]
+  (fn [[fkey & args]]
+    (let [f (get function-map fkey)]
+      (apply f args))))

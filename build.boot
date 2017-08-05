@@ -1,4 +1,4 @@
-(set-env! :source-paths #{"src/clj" "src/cljs"}
+(set-env! :source-paths #{"src/clj"}
           :resource-paths #{"resources"}
           :dependencies '[[org.clojure/clojure "1.8.0"]
                           [org.clojure/clojurescript "1.9.854"]
@@ -14,14 +14,9 @@
          '[system.boot :refer [system]])
 
 (deftask dev
-  "Launches the development environment."
+  "Launches the development environment, complete with server, REPL, and auto reloading."
   []
   (set-env! :source-paths #(conj % "src/dev"))
   (comp (repl :server true :init-ns 'user)
         (watch)
         (system :sys #'dev-system :auto true :files ["http_kit.clj" "systems.clj"])))
-
-(deftask run
-  "Runs the application."
-  []
-  (core/run))

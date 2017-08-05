@@ -1,37 +1,21 @@
 (ns pancakes.systems
-  (:require [com.stuartsierra.component :as component]
+  (:require [pancakes.core :as p]
+            [pancakes.components.server :refer [make-pancakes-server]]
             [pancakes.components.http-kit :refer [make-http-server]]
-            [org.httpkit.server :refer [with-channel on-receive websocket? send! close]]
-            [compojure.core :refer [routes GET ANY]]
-            [clojure.edn :as edn]))
+            [com.stuartsierra.component :as component]))
 
-(defn make-router
-  [function-map]
-  (fn [[fkey & args]]
-    (let [f (get function-map fkey)]
-      (apply f args))))
-
-(def example-function-map
+(def dev-routes
   {:init (fn [] (println "Initialized!"))
-   :hello (fn [name] (println "Hello," name))})
+   :hello (fn [name] (println "Hello" name))})
 
-(defn make-pancakes-handler
-  [router]
-  (fn [req]
-    (with-channel req channel
-      (on-receive channel (fn [data]
-                            (router (edn/read-string data)))))))
-
-(defn make-ring-handler
-  [pancakes-handler]
-  (routes (GET "/" [req] "<h1>Connect a websocket.</h1>")
-          (GET "/ws" [req] pancakes-handler)))
-
-(def handler (-> (make-router example-function-map)
-                 (make-pancakes-handler)
-                 (make-ring-handler)))
+(def dev-router (p/make-router dev-routes))
 
 (defn dev-system
   []
   (component/system-map
-   :http (make-http-server {:port 8080} handler)))
+   :pancakes (make-pancakes-server {:port 8080} dev-router make-http-server)))
+
+(defn prod-system
+  [router]
+  (component/system-map
+   :pancakes (make-pancakes-server {:port 8080} router make-http-server)))
