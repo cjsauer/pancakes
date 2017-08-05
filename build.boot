@@ -6,7 +6,8 @@
                           [com.taoensso/timbre "4.10.0"]
                           [com.stuartsierra/component "0.3.2"]
                           [http-kit "2.2.0" :scope "provided"]
-                          [org.danielsz/system "0.4.0" :scope "test"]])
+                          [org.danielsz/system "0.4.0" :scope "test"]
+                          [compojure "1.6.0"]])
 
 (require '[pancakes.core :as core]
          '[pancakes.systems :refer [dev-system]]
@@ -18,7 +19,7 @@
   (set-env! :source-paths #(conj % "src/dev"))
   (comp (repl :server true :init-ns 'user)
         (watch)
-        (system :sys #'dev-system :auto true :files ["http_kit.clj"])))
+        (system :sys #'dev-system :auto true :files ["http_kit.clj" "systems.clj"])))
 
 (deftask run
   "Runs the application."
