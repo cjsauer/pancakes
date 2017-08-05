@@ -15,7 +15,9 @@
 (deftask dev
   "Launches the development environment."
   []
-  (comp (watch)
+  (set-env! :source-paths #(conj % "src/dev"))
+  (comp (repl :server true :init-ns 'user)
+        (watch)
         (system :sys #'dev-system :auto true :files ["http_kit.clj"])))
 
 (deftask run
