@@ -2,7 +2,8 @@
 (task-options! pom {:project 'cjsauer/pancakes
                     :version +version+
                     :description "Clojure RPC over WebSockets"
-                    :license {"MIT" "https://opensource.org/licenses/MIT"}})
+                    :license {"MIT" "https://opensource.org/licenses/MIT"}
+                    :url "https://github.com/cjsauer/pancakes"})
 
 (set-env! :source-paths #{"src/clj"}
           :resource-paths #{"resources"}
