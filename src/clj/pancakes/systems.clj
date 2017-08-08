@@ -1,21 +1,52 @@
 (ns pancakes.systems
-  (:require [pancakes.core :as p]
-            [pancakes.components.server :refer [make-pancakes-server]]
+  (:require [pancakes.components.server :refer [make-pancakes-server]]
+            [pancakes.components.client :refer [make-pancakes-client]]
             [pancakes.components.http-kit :refer [make-http-server]]
             [com.stuartsierra.component :as component]))
 
-(def dev-routes
-  {:init (fn [] (println "Initialized!"))
-   :hello (fn [name] (println "Hello" name))})
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Main system functions
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def dev-router (p/make-router dev-routes))
+(defn- make-router
+  [function-map]
+  (fn [[fkey & args]]
+    (let [f (get function-map fkey)]
+      (apply f args))))
+
+(defn server-system
+  [opts function-map]
+  (let [router (make-router function-map)]
+    (component/system-map
+     :server (make-pancakes-server opts router make-http-server))))
+
+(defn client-system
+  [opts function-map]
+  (let [router (make-router function-map)]
+    (component/system-map
+     :client (make-pancakes-client opts router))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Development system functions
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(def dev-routes-server
+  {:init (fn [] (println "Initialized server!"))
+   :hello (fn [name] (println "Server (hello): " name))})
+
+(def dev-routes-client
+  {:init (fn [] (println "Initialized client!"))
+   :hello (fn [name] (println "Client (hello): " name))})
+
+(def dev-router-server (make-router dev-routes-server))
+(def dev-router-client (make-router dev-routes-client))
 
 (defn dev-system
   []
   (component/system-map
-   :pancakes (make-pancakes-server {:port 8080} dev-router make-http-server)))
-
-(defn prod-system
-  [router]
-  (component/system-map
-   :pancakes (make-pancakes-server {:port 8080} router make-http-server)))
+   :server (make-pancakes-server {:port 8080} dev-router-server make-http-server)
+   :client (make-pancakes-client {} dev-router-client)))

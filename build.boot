@@ -7,7 +7,8 @@
                           [com.stuartsierra/component "0.3.2"]
                           [http-kit "2.2.0" :scope "provided"]
                           [org.danielsz/system "0.4.0" :scope "test"]
-                          [compojure "1.6.0"]])
+                          [compojure "1.6.0"]
+                          [org.clojure/core.async "0.3.443"]])
 
 (require '[pancakes.core :as core]
          '[pancakes.systems :refer [dev-system]]
@@ -19,4 +20,4 @@
   (set-env! :source-paths #(conj % "src/dev"))
   (comp (repl :server true :init-ns 'user)
         (watch)
-        (system :sys #'dev-system :auto true :files ["http_kit.clj" "systems.clj"])))
+        (system :sys #'dev-system :auto true :files ["http_kit.clj" "systems.clj" "client.clj"])))
