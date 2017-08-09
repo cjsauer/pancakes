@@ -1,4 +1,4 @@
-(def +version+ "0.1.1-SNAPSHOT")
+(def +version+ "0.1.1")
 (task-options! pom {:project 'cjsauer/pancakes
                     :version +version+
                     :description "Clojure RPC over WebSockets"
