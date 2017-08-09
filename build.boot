@@ -14,8 +14,7 @@
                           [http-kit "2.2.0" :scope "provided"]
                           [org.danielsz/system "0.4.0" :scope "test"]
                           [adzerk/bootlaces "0.1.13" :scope "test"]
-                          [compojure "1.6.0"]
-                          [org.clojure/core.async "0.3.443"]])
+                          [compojure "1.6.0"]])
 
 (require '[pancakes.core :as core]
          '[pancakes.systems :refer [dev-system]]
