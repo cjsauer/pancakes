@@ -1,4 +1,4 @@
-(def +version+ "0.1.1")
+(def +version+ "0.1.2")
 (task-options! pom {:project 'cjsauer/pancakes
                     :version +version+
                     :description "Clojure RPC over WebSockets"
@@ -8,7 +8,7 @@
 (set-env! :source-paths #{"src/clj"}
           :resource-paths #{"resources"}
           :dependencies '[[org.clojure/clojure "1.8.0"]
-                          [org.clojure/core.async "0.3.443"]
+                          [org.clojure/core.async "0.3.443" :exclusions [org.clojure/clojurescript]]
                           [com.taoensso/timbre "4.10.0"]
                           [com.stuartsierra/component "0.3.2"]
                           [http-kit "2.2.0" :scope "provided"]
