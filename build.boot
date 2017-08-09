@@ -1,4 +1,4 @@
-(def +version+ "0.1.0")
+(def +version+ "0.1.1-SNAPSHOT")
 (task-options! pom {:project 'cjsauer/pancakes
                     :version +version+
                     :description "Clojure RPC over WebSockets"
@@ -8,7 +8,6 @@
 (set-env! :source-paths #{"src/clj"}
           :resource-paths #{"resources"}
           :dependencies '[[org.clojure/clojure "1.8.0"]
-                          [org.clojure/clojurescript "1.9.854"]
                           [org.clojure/core.async "0.3.443"]
                           [com.taoensso/timbre "4.10.0"]
                           [com.stuartsierra/component "0.3.2"]
@@ -36,7 +35,8 @@
 (deftask build
   "Builds and installs the project jar file"
   []
-  (comp (build-jar)))
+  (comp (build-jar)
+        (target)))
 
 (deftask deploy-snapshot
   "Builds and deploys project jar file as a snapshot to Clojars"
