@@ -37,7 +37,7 @@
 (def dev-routes-server
   {:init (fn [] (println "Initialized server!"))
    :hello (fn [name] (println "Server (hello): " name))
-   :reverse (fn [] (broadcast [:reverse]))})
+   :toggle (fn [] (broadcast [:toggle]))})
 
 (def dev-routes-client
   {:init (fn [] (println "Initialized client!"))
