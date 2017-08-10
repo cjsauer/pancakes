@@ -29,7 +29,7 @@
   (set-env! :source-paths #(conj % "src/dev"))
   (comp (repl :server true :init-ns 'user)
         (watch)
-        (system :sys #'dev-system :auto true :files ["http_kit.clj" "systems.clj" "client.clj"])))
+        (system :sys #'dev-system :auto true :files ["http_kit.clj" "systems.clj" "server.clj" "client.clj"])))
 
 (deftask build
   "Builds and installs the project jar file"

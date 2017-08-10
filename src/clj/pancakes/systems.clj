@@ -1,5 +1,5 @@
 (ns pancakes.systems
-  (:require [pancakes.components.server :refer [make-pancakes-server]]
+  (:require [pancakes.components.server :refer [make-pancakes-server broadcast]]
             [pancakes.components.client :refer [make-pancakes-client]]
             [pancakes.components.http-kit :refer [make-http-server]]
             [com.stuartsierra.component :as component]))
@@ -36,7 +36,8 @@
 
 (def dev-routes-server
   {:init (fn [] (println "Initialized server!"))
-   :hello (fn [name] (println "Server (hello): " name))})
+   :hello (fn [name] (println "Server (hello): " name))
+   :reverse (fn [] (broadcast [:reverse]))})
 
 (def dev-routes-client
   {:init (fn [] (println "Initialized client!"))
