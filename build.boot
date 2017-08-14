@@ -37,6 +37,15 @@
   (comp (build-jar)
         (target)))
 
+(deftask uberjar
+  "Produces a runnable uberjar file inside the target directory."
+  []
+  (comp (aot :namespace #{'pancakes.main})
+        (uber)
+        (jar :file "pancakes-standalone.jar" :main 'pancakes.main)
+        (sift :include #{#"pancakes-standalone.jar"})
+        (target)))
+
 (deftask deploy-snapshot
   "Builds and deploys project jar file as a snapshot to Clojars"
   []
